@@ -2,18 +2,34 @@ extends Control
 
 
 var player_words = []
-var story = "Holy snikies! It's %s Hero of %s with the ability to %s hes the %s!"
-var prompts = ["a name", "a place", "an action", "an adjective"]
 onready var PlayerText = $VBoxContainer/HBoxContainer/PlayerText
 onready var DisplayText = $VBoxContainer/DisplayText
+var current_story 
+
 
 func _ready():
+	set_current_story()
 	DisplayText.text = " Hello this a Loony lips. Below you can enter text when prompted and they will be used to make a story. "	
 	check_player_words_length()
 	PlayerText.grab_focus()
 
-func _on_PlayerText_text_entered(new_text):
+
+func set_current_story():
+	randomize()
+	var stories = get_from_json("storybook.json")
+	current_story = stories[randi() % stories.size()]
 	
+
+
+func get_from_json(filename):
+	var json_file = File.new()
+	json_file.open(filename, File.READ)
+	var text = json_file.get_as_text()
+	var data = parse_json(text) 
+	json_file.close()
+	return data
+	
+func _on_PlayerText_text_entered(new_text):
 	 add_to_player_words()
 	
 
@@ -31,7 +47,7 @@ func add_to_player_words():
 	 check_player_words_length()
 
 func is_story_complete():
-	return player_words.size() == prompts.size()
+	return player_words.size() == current_story.prompts.size()
 	
 	
 func check_player_words_length():
@@ -42,17 +58,14 @@ func check_player_words_length():
 		
 			
 func tell_story():
-		DisplayText.text = story % player_words
-		
+		DisplayText.text = current_story.story % player_words
 		
 		
 func prompt_player():
-		DisplayText.text += "May I have " + prompts[player_words.size()] + ", please?"
+		DisplayText.text += "May I have " +current_story.prompts[player_words.size()] + ", please?"
 
-
-	
 
 func end_game():
 	PlayerText.queue_free()
-	$VBoxContainer/HBoxContainer/PlayerButton/Label.text = "Again!"
+	$VBoxContainer/HBoxContainer/PlayerButton/ButtonLabel.text = "Again!"
 	tell_story()

@@ -1,0 +1,14 @@
+[
+	{
+	"prompts": ["Name","Place","Action"],
+	"story" : "Hey, %s Wanna head down to %s and %s"
+	},	
+	{
+	"prompts": ["Name","Object","Adverb","Adjective" ],
+	"story" : "%s ate a %s flavored sandwich it tasted %s, they had a %s day"	
+	},
+	{
+	"prompts": ["a name", "a place", "an action", "an adjective"],
+	"story" : "Holy snikies! It's %s Hero of %s with the ability to %s hes the %s!"
+	}	
+]

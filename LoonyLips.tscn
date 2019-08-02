@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://LoonyLips.gd" type="Script" id=1]
 [ext_resource path="res://gfx/blackboard.jpg" type="Texture" id=2]
 [ext_resource path="res://gfx/Feltpen.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://gfx/blue_button11.png" type="Texture" id=4]
 [ext_resource path="res://gfx/blue_button12.png" type="Texture" id=5]
+[ext_resource path="res://Story0.gd" type="Script" id=6]
 
 [sub_resource type="DynamicFont" id=1]
 size = 40
@@ -68,7 +69,7 @@ texture_normal = ExtResource( 4 )
 texture_pressed = ExtResource( 5 )
 expand = true
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/PlayerButton"]
+[node name="ButtonLabel" type="Label" parent="VBoxContainer/HBoxContainer/PlayerButton"]
 margin_left = 12.0
 margin_top = 17.0
 margin_right = 64.0
@@ -78,5 +79,23 @@ custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "OK
 "
 align = 1
+
+[node name="Storybook" type="Node" parent="."]
+editor/display_folded = true
+
+[node name="Story0" type="Node" parent="Storybook"]
+script = ExtResource( 6 )
+prompts = PoolStringArray( "Name", "Place", "Action" )
+story = "Hey, %s Wanna head down to %s and %s"
+
+[node name="Story1" type="Node" parent="Storybook"]
+script = ExtResource( 6 )
+prompts = PoolStringArray( "Name", "Object", "Adverb", "Adjective" )
+story = "%s ate a %s flavored sandwich it tasted %s, they had a %s day"
+
+[node name="Story2" type="Node" parent="Storybook"]
+script = ExtResource( 6 )
+prompts = PoolStringArray( "A name", "a place", "an action", "an adjective" )
+story = "Holy snikies! It's %s Hero of %s with the ability to %s hes the %s!"
 [connection signal="text_entered" from="VBoxContainer/HBoxContainer/PlayerText" to="." method="_on_PlayerText_text_entered"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/PlayerButton" to="." method="_on_PlayerButton_pressed"]
